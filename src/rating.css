@@ -1,0 +1,24 @@
+.review-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.review-item {
+  width: 100%;
+  padding: 20px;
+  margin: 0 10px; 
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  animation: slideIn 5s infinite alternate;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
