@@ -10,6 +10,8 @@ import Products from "./pages/products";
 import Cart from "./pages/cart";
 import { useState } from "react";
 import Contact from "./pages/contact";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 function App() {
   // Define state for cart and function to set cart
@@ -29,6 +31,9 @@ function App() {
     <div>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
         <Route path="/home" element={<Home />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/products" element={<Products addToCart={addToCart} />} />

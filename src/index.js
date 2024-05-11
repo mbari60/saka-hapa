@@ -4,18 +4,20 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Toaster } from "react-hot-toast";
 import { ChakraProvider } from "@chakra-ui/react";
-// import { AuthProvider } from "./context/authcontext";
+import { AuthProvider } from "./context/authcontext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <Toaster position="top-right" />
 
     <ChakraProvider>
       <BrowserRouter>
-        
+        <AuthProvider>
           <App />
-      
+        </AuthProvider>
       </BrowserRouter>
     </ChakraProvider>
   </React.StrictMode>
