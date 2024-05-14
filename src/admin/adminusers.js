@@ -18,21 +18,17 @@ import {
   ModalBody,
   ModalFooter,
   ModalCloseButton,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
   newPassword: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Required"),
+    .required("New Password is required")
+    .min(8, "Password must be at least 8 characters long"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
-    .required("Required"),
+    .required("Confirm Password is required"),
 });
 
 const AdminUsers = () => {
@@ -40,8 +36,8 @@ const AdminUsers = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchUsername, setSearchUsername] = useState("");
   const [sortByMeritPoints, setSortByMeritPoints] = useState(false);
+  const [deleteUserModalOpen, setDeleteUserModalOpen] = useState(false);
   const [resetPasswordModalOpen, setResetPasswordModalOpen] = useState(false);
-  const [suspendUserModalOpen, setSuspendUserModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const toast = useToast();
 
@@ -97,19 +93,8 @@ const AdminUsers = () => {
     setResetPasswordModalOpen(false);
   };
 
-  // Suspend user modal handlers
-  const openSuspendUserModal = (user) => {
-    setSelectedUser(user);
-    setSuspendUserModalOpen(true);
-  };
-
-  const closeSuspendUserModal = () => {
-    setSelectedUser(null);
-    setSuspendUserModalOpen(false);
-  };
-
-  // Reset password form submission
-  const handleResetPassword = async (values) => {
+  // Reset password
+  const resetPassword = async (values) => {
     try {
       await api.put(`resetpassword/${selectedUser.id}`, {
         password: values.newPassword,
@@ -135,37 +120,22 @@ const AdminUsers = () => {
     }
   };
 
-  // Suspend user
-  const suspendUser = async () => {
-    try {
-      await api.put(`suspenduser/${selectedUser.id}`);
-      toast({
-        title: "Success",
-        description: "User suspended successfully.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      closeSuspendUserModal();
-    } catch (error) {
-      console.error("Error suspending user:", error);
-      // Optional: Show error toast
-      toast({
-        title: "Error",
-        description: "Failed to suspend user.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+  // Delete user modal handlers
+  const openDeleteUserModal = (user) => {
+    setSelectedUser(user);
+    setDeleteUserModalOpen(true);
+  };
+
+  const closeDeleteUserModal = () => {
+    setSelectedUser(null);
+    setDeleteUserModalOpen(false);
   };
 
   // Delete user
   const deleteUser = async () => {
     try {
-      await api.delete(`users/${selectedUser.id}`);
+      await api.delete(`registration/${selectedUser.id}`);
       setUsers(users.filter((user) => user.id !== selectedUser.id));
-      closeSuspendUserModal(); // Close suspend modal if open
       toast({
         title: "Success",
         description: "User deleted successfully.",
@@ -173,12 +143,52 @@ const AdminUsers = () => {
         duration: 5000,
         isClosable: true,
       });
+      closeDeleteUserModal();
     } catch (error) {
       console.error("Error deleting user:", error);
       // Optional: Show error toast
       toast({
         title: "Error",
         description: "Failed to delete user.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  // Suspend or activate user based on is_active status
+  const toggleUserActivation = async (user) => {
+    const action = user.is_active ? "suspend" : "activate";
+    try {
+      await api.put(`users/${user.id}/${action}`);
+      const updatedUsers = users.map((u) => {
+        if (u.id === user.id) {
+          return { ...u, is_active: !user.is_active };
+        }
+        return u;
+      });
+      setUsers(updatedUsers);
+      toast({
+        title: "Success",
+        description: `User ${
+          action === "suspend" ? "suspended" : "activated"
+        } successfully.`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error(
+        `Error ${action === "suspend" ? "suspending" : "activating"} user:`,
+        error
+      );
+      // Optional: Show error toast
+      toast({
+        title: "Error",
+        description: `Failed to ${
+          action === "suspend" ? "suspend" : "activate"
+        } user.`,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -217,18 +227,23 @@ const AdminUsers = () => {
               <Td>{user.merit_points}</Td>
               <Td>
                 <Button
+                  colorScheme={user.is_active ? "red" : "green"}
+                  onClick={() => toggleUserActivation(user)}
+                >
+                  {user.is_active ? "Suspend" : "Activate"}
+                </Button>
+                <Button
                   colorScheme="blue"
+                  ml={2}
                   onClick={() => openResetPasswordModal(user)}
                 >
                   Reset Password
                 </Button>
                 <Button
-                  colorScheme="red"
-                  onClick={() => openSuspendUserModal(user)}
+                  colorScheme="orange"
+                  ml={2}
+                  onClick={() => openDeleteUserModal(user)}
                 >
-                  Suspend
-                </Button>
-                <Button colorScheme="orange" onClick={deleteUser}>
                   Delete
                 </Button>
               </Td>
@@ -236,6 +251,7 @@ const AdminUsers = () => {
           ))}
         </Tbody>
       </Table>
+
       {/* Reset Password Modal */}
       <Modal isOpen={resetPasswordModalOpen} onClose={closeResetPasswordModal}>
         <ModalOverlay />
@@ -244,70 +260,46 @@ const AdminUsers = () => {
           <ModalCloseButton />
           <ModalBody>
             <Formik
-              initialValues={{
-                newPassword: "",
-                confirmPassword: "",
-              }}
+              initialValues={{ newPassword: "", confirmPassword: "" }}
               validationSchema={validationSchema}
-              onSubmit={handleResetPassword}
+              onSubmit={(values) => resetPassword(values)}
             >
-              {({ values, errors, touched, setFieldValue }) => (
-                <Form>
-                  <FormControl
-                    isInvalid={errors.newPassword && touched.newPassword}
-                    mt={4}
-                  >
-                    <FormLabel>New Password</FormLabel>
-                    <Input
-                      type="password"
-                      name="newPassword"
-                      value={values.newPassword}
-                      onChange={(e) =>
-                        setFieldValue("newPassword", e.target.value)
-                      }
-                    />
-                    <FormErrorMessage>{errors.newPassword}</FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isInvalid={
-                      errors.confirmPassword && touched.confirmPassword
-                    }
-                    mt={4}
-                  >
-                    <FormLabel>Confirm Password</FormLabel>
-                    <Input
-                      type="password"
-                      name="confirmPassword"
-                      value={values.confirmPassword}
-                      onChange={(e) =>
-                        setFieldValue("confirmPassword", e.target.value)
-                      }
-                    />
-                    <FormErrorMessage>
-                      {errors.confirmPassword}
-                    </FormErrorMessage>
-                  </FormControl>
-                  <Button mt={4} colorScheme="blue" type="submit">
-                    Reset Password
-                  </Button>
-                </Form>
-              )}
+              <Form>
+                <Field
+                  name="newPassword"
+                  type="password"
+                  placeholder="New Password"
+                  as={Input}
+                />
+                <ErrorMessage name="newPassword" component="div" />
+                <Field
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Confirm Password"
+                  as={Input}
+                />
+                <ErrorMessage name="confirmPassword" component="div" />
+                <Button mt={4} colorScheme="blue" type="submit">
+                  Reset Password
+                </Button>
+              </Form>
             </Formik>
           </ModalBody>
         </ModalContent>
       </Modal>
-      {/* Suspend User Modal */}
-      <Modal isOpen={suspendUserModalOpen} onClose={closeSuspendUserModal}>
+
+      {/* Delete User Modal */}
+      <Modal isOpen={deleteUserModalOpen} onClose={closeDeleteUserModal}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Suspend User</ModalHeader>
+          <ModalHeader>Delete User</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>Are you sure you want to suspend this user?</ModalBody>
+          <ModalBody>Are you sure you want to delete this user?</ModalBody>
           <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={suspendUser}>
-              Suspend
+            <Button colorScheme="red" mr={3} onClick={deleteUser}>
+              Delete
             </Button>
-            <Button onClick={closeSuspendUserModal}>Cancel</Button>
+            <Button onClick={closeDeleteUserModal}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

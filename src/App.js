@@ -17,7 +17,8 @@ import AdminPage from "./admin/viewpage";
 import AdminProducts from "./admin/adminproducts";
 import AdminOffers from "./admin/adminoffers";
 import AdminNotifications from "./admin/adminnotifications";
-
+import AdminUsers from "./admin/adminusers";
+import OrderList from "./admin/orders";
 function App() {
   // Define state for cart and function to set cart
   const [cart, setCart] = useState([]);
@@ -55,6 +56,8 @@ function App() {
         <Route path="/adminproducts" element={<AdminProducts />} />
         <Route path="/adminoffers" element={<AdminOffers />} />
         <Route path="/adminnotifications" element={<AdminNotifications />} />
+        <Route path="/adminusers" element={<AdminUsers />} />
+        <Route path="/getorders" element={<OrderList />} />
       </Routes>
     </div>
   );

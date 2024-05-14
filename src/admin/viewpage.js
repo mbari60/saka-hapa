@@ -32,10 +32,10 @@ const AdminPage = () => {
             <Text fontSize="xl" fontWeight="bold">
               Admin Panel
             </Text>
-            <Link to="/admin/dashboard">
-              <Text>Dashboard</Text>
+            <Link to="/getorders">
+              <Text>Orders</Text>
             </Link>
-            <Link to="/admin/users">
+            <Link to="/adminusers">
               <Text>Users</Text>
             </Link>
             <Link to="/adminproducts">
@@ -44,7 +44,7 @@ const AdminPage = () => {
             <Link to="/adminoffers">
               <Text>Offers</Text>
             </Link>
-            <Link to="adminnotifications">
+            <Link to="/adminnotifications">
               <Text>Notifications</Text>
             </Link>
           </VStack>
