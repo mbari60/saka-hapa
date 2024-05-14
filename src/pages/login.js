@@ -28,7 +28,7 @@ const schema = Yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, user , setIsAuthenticated } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
@@ -47,6 +47,7 @@ const Login = () => {
       resetForm();
       localStorage.setItem("session", JSON.stringify(res.data));
       setIsAuthenticated(true);
+      console.log(isAuthenticated)
       navigate("/home");
     } catch (error) {
       toast({
@@ -60,6 +61,9 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  
+  console.log(isAuthenticated);
+  console.log(user);
 
   return (
     <Center minH="100vh">

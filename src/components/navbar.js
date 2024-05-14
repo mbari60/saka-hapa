@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -29,15 +29,13 @@ import {
   SunIcon,
   HamburgerIcon,
 } from "@chakra-ui/icons";
+import { AuthContext } from "../context/authcontext";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [showMenu, setShowMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  // const toggleMenu = () => {
-  //   setShowMenu(!showMenu);
-  // };
+  const { logout, isAuthenticated, user } = useContext(AuthContext);
 
   const handleMenuItemClick = () => {
     setShowMenu(false); // Close the menu when a link is clicked
@@ -53,7 +51,7 @@ const Navbar = () => {
       <Flex flexWrap="wrap" align="center">
         <Image
           src="https://images.template.net/wp-content/uploads/2014/09/Zenith-Fitness-Logo.jpg"
-          alt="Gym Logo"
+          alt="Logo"
           boxSize={{ base: "30px", md: "40px" }}
           mr="4"
         />
@@ -143,6 +141,14 @@ const Navbar = () => {
               to="/notifications"
               onClick={handleMenuItemClick}
             />
+            <Button
+              variant="ghost"
+              as={Link}
+              to="/adminviews"
+              onClick={handleMenuItemClick}
+            >
+              Admin
+            </Button>
           </Box>
           <IconButton
             aria-label="Toggle Color Mode"
@@ -151,53 +157,58 @@ const Navbar = () => {
             size="sm"
             ml={{ base: "auto", md: 2 }}
           />
-          <Menu mr={{ base: 0, md: 2 }}>
-            <MenuButton
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
-              bg="black"
-              color="white"
-              display={{ base: "none", md: "block" }}
-            >
-              <Avatar size="sm" name="User" />
-            </MenuButton>
-            <MenuList>
-              <MenuItem>
+          {isAuthenticated ? (
+            <>
+              <Menu mr={{ base: 0, md: 2 }}>
+                <MenuButton
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                  bg="black"
+                  color="white"
+                  display={{ base: "none", md: "block" }}
+                >
+                  <Avatar size="sm" name="User" />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>
+                    <Link
+                      to="/profile"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                      onClick={handleMenuItemClick}
+                    >
+                      Profile
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Button variant="link" color="red.500" onClick={logout}>
+                      Logout
+                    </Button>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
+          ) : (
+            <Box display={{ base: "none", md: "flex" }} alignItems="center">
+              <Button colorScheme="black" mr="2">
                 <Link
-                  to="/profile"
+                  to="/"
                   style={{ textDecoration: "none", color: "inherit" }}
                   onClick={handleMenuItemClick}
                 >
-                  Profile
+                  Login
                 </Link>
-              </MenuItem>
-              <MenuItem>
-                <Button variant="link" color="red.500">
-                  Logout
-                </Button>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-          <Box display={{ base: "none", md: "flex" }} alignItems="center">
-            <Button colorScheme="black" mr="2">
-              <Link
-                to="/"
-                style={{ textDecoration: "none", color: "inherit" }}
-                onClick={handleMenuItemClick}
-              >
-                Login
-              </Link>
-            </Button>
-            <Button colorScheme="black" mr="2">
-              <Link
-                to="/signup"
-                style={{ textDecoration: "none", color: "inherit" }}
-                onClick={handleMenuItemClick}
-              >
-                Create Account
-              </Link>
-            </Button>
-          </Box>
+              </Button>
+              <Button colorScheme="black" mr="2">
+                <Link
+                  to="/signup"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  onClick={handleMenuItemClick}
+                >
+                  Create Account
+                </Link>
+              </Button>
+            </Box>
+          )}
         </Box>
       </Flex>
       <Drawer
@@ -235,18 +246,27 @@ const Navbar = () => {
               <Link to="/notifications" onClick={handleMenuItemClick}>
                 Notifications
               </Link>
+              <Link to="/adminviews" onClick={handleMenuItemClick}>
+                Admin
+              </Link>
               <Link to="/profile" onClick={handleMenuItemClick}>
                 Profile
               </Link>
-              <Button color="red.500" onClick={handleMenuItemClick}>
-                Logout
-              </Button>
-              <Link to="/" onClick={handleMenuItemClick}>
-                Login
-              </Link>
-              <Link to="/signup" onClick={handleMenuItemClick}>
-                Create Account
-              </Link>
+              {isAuthenticated && (
+                <Button color="red.500" onClick={logout}>
+                  Logout
+                </Button>
+              )}
+              {!isAuthenticated && (
+                <>
+                  <Link to="/" onClick={handleMenuItemClick}>
+                    Login
+                  </Link>
+                  <Link to="/signup" onClick={handleMenuItemClick}>
+                    Create Account
+                  </Link>
+                </>
+              )}
             </VStack>
           </DrawerBody>
         </DrawerContent>

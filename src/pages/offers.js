@@ -8,12 +8,19 @@ import {
   Flex,
   Spinner,
   Icon,
+  Center,
+  VStack,
+  HStack,
+  Grid,
+  GridItem,
+  useToast,
 } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const Offers = () => {
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     fetchOffers();
@@ -34,10 +41,16 @@ const Offers = () => {
   const handlePurchase = async (offerId) => {
     setIsLoading(true);
     try {
-      await api.post("/buyoffer", { offer_id: offerId });
+      await api.post("/offerbookings", { offer_id: offerId });
       // Optionally, you can handle success or refresh the offers after purchase
     } catch (error) {
-      console.error("Error purchasing offer:", error);
+       toast({
+         title: error.response.data.message,
+         status: "error",
+         duration: 2000,
+         isClosable: true,
+       });
+
     } finally {
       setIsLoading(false);
     }
@@ -74,63 +87,67 @@ const Offers = () => {
   const renderTimeSinceCreation = (createdAt) => {
     const createdDate = new Date(createdAt);
     const currentTime = new Date();
-    const diffInMinutes = Math.floor((currentTime - createdDate) / (1000 * 60));
-    return `${diffInMinutes} minutes ago`;
+    const diffInHours = Math.floor(
+      (currentTime - createdDate) / (1000 * 60 * 60)
+    );
+    return `${diffInHours} hours ago`;
   };
 
   return (
-    <Box>
+    <Grid
+      templateColumns={{
+        sm: "1fr",
+        md: "repeat(2, 1fr)",
+        lg: "repeat(3, 1fr)",
+      }}
+      gap={4}
+    >
       {isLoading && <Spinner size="lg" />}
       {offers.map((offer) => (
-        <Box
-          key={offer.id}
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          boxShadow="lg"
-          p={4}
-          mb={4}
-        >
-          <Image src={offer.image_url} alt={offer.offer_name} />
-          <Box p="6">
-            <Box>
-              <Text fontSize="xl" fontWeight="semibold" mb={2}>
-                {offer.offer_name}
-              </Text>
-              <Text color="gray.500" mb={2}>
-                {offer.description}
-              </Text>
-              <Flex alignItems="center">
-                <Text fontSize="2xl" fontWeight="bold" mr={2}>
-                  Ksh. {offer.offer_price}
+        <GridItem key={offer.id}>
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            boxShadow="lg"
+          >
+            <Image src={offer.image_url} alt={offer.offer_name} />
+            <Box p={4}>
+              <VStack align="stretch" spacing={4}>
+                <Text fontSize="xl" fontWeight="semibold">
+                  {offer.offer_name}
                 </Text>
-                {offer.previous_price && (
-                  <Text textDecoration="line-through" color="gray.500">
-                    Ksh. {offer.previous_price}
+                <Text color="gray.500">{offer.description}</Text>
+                <Flex alignItems="center" justifyContent="space-between">
+                  <Text color="gray.500" fontSize="sm">
+                    {renderTimeSinceCreation(offer.created_at)}
                   </Text>
-                )}
-              </Flex>
+                  <HStack spacing={1}>{renderStars(offer.rating)}</HStack>
+                </Flex>
+                <Flex alignItems="center" justifyContent="space-between">
+                  <Text fontSize="2xl" fontWeight="bold">
+                    Ksh. {offer.offer_price}
+                  </Text>
+                  <Text color="gray.500" fontSize="sm">
+                    Remaining Slots: {offer.slots_limit}
+                  </Text>
+                </Flex>
+                <Center>
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => handlePurchase(offer.id)}
+                    isLoading={isLoading}
+                    disabled={offer.slots_limit === 0}
+                  >
+                    {offer.slots_limit === 0 ? "Sold Out" : "Buy Now"}
+                  </Button>
+                </Center>
+              </VStack>
             </Box>
-            <Flex alignItems="center" justify="space-between">
-              <Box>
-                <Text color="gray.500" fontSize="sm">
-                  Posted {renderTimeSinceCreation(offer.created_at)}
-                </Text>
-                <Flex>{renderStars(offer.rating)}</Flex>
-              </Box>
-              <Button
-                colorScheme="blue"
-                onClick={() => handlePurchase(offer.id)}
-                isLoading={isLoading}
-                disabled={offer.slots_limit === 0}
-              >
-                {isLoading ? "Loading..." : "Buy Now"}
-              </Button>
-            </Flex>
           </Box>
-        </Box>
+        </GridItem>
       ))}
-    </Box>
+    </Grid>
   );
 };
 

@@ -12,6 +12,9 @@ import { useState } from "react";
 import Contact from "./pages/contact";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import Notifications from "./pages/notifications";
+import AdminPage from "./admin/viewpage";
+import AdminProducts from "./admin/adminproducts";
 
 function App() {
   // Define state for cart and function to set cart
@@ -37,6 +40,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/offers" element={<Offers />} />
         <Route path="/products" element={<Products addToCart={addToCart} />} />
+        <Route path="/notifications" element={<Notifications />} />
         <Route
           path="/cart"
           element={<Cart cart={cart} removeFromCart={removeFromCart} />}
@@ -44,6 +48,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/contact" element={<Contact />} />
+
+        <Route path="/adminviews" element={<AdminPage />} />
+        <Route path="/adminproducts" element={<AdminProducts />} />
       </Routes>
     </div>
   );
