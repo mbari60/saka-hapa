@@ -6,13 +6,13 @@ import {
   VStack,
   Text,
   IconButton,
-  useColorMode,
+  // useColorMode,
 } from "@chakra-ui/react";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const AdminPage = () => {
   const [showSidebar, setShowSidebar] = useState(true);
-  const { colorMode, toggleColorMode } = useColorMode();
+  // const { colorMode, toggleColorMode } = useColorMode();
 
   const handleToggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -22,7 +22,7 @@ const AdminPage = () => {
     <Flex>
       {showSidebar && (
         <Box
-          bg={colorMode === "light" ? "gray.200" : "gray.700"}
+          // bg={colorMode === "light" ? "gray.200" : "gray.700"}
           w="250px"
           minH="100vh"
           p="4"
@@ -41,8 +41,11 @@ const AdminPage = () => {
             <Link to="/adminproducts">
               <Text>Products</Text>
             </Link>
-            <Link to="/admin/orders">
-              <Text>Orders</Text>
+            <Link to="/adminoffers">
+              <Text>Offers</Text>
+            </Link>
+            <Link to="adminnotifications">
+              <Text>Notifications</Text>
             </Link>
           </VStack>
         </Box>

@@ -15,6 +15,8 @@ import Signup from "./pages/signup";
 import Notifications from "./pages/notifications";
 import AdminPage from "./admin/viewpage";
 import AdminProducts from "./admin/adminproducts";
+import AdminOffers from "./admin/adminoffers";
+import AdminNotifications from "./admin/adminnotifications";
 
 function App() {
   // Define state for cart and function to set cart
@@ -51,6 +53,8 @@ function App() {
 
         <Route path="/adminviews" element={<AdminPage />} />
         <Route path="/adminproducts" element={<AdminProducts />} />
+        <Route path="/adminoffers" element={<AdminOffers />} />
+        <Route path="/adminnotifications" element={<AdminNotifications />} />
       </Routes>
     </div>
   );
