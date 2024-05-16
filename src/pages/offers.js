@@ -142,7 +142,11 @@ const Offers = () => {
                 <Center>
                   <Button
                     colorScheme="blue"
-                    onClick={() => handlePurchase(offer.id)}
+                    onClick={
+                      offer.slots_limit !== 0
+                        ? () => handlePurchase(offer.id)
+                        : undefined
+                    }
                     isLoading={loadingState[offer.id]}
                     disabled={offer.slots_limit === 0}
                   >
