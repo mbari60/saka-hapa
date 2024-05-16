@@ -154,6 +154,7 @@ const AdminProducts = () => {
         price: 0,
         category: "",
         image_url: "",
+        insta_url: "",
         rating: 1,
       });
       setNewProductModalOpen(false);

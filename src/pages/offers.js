@@ -10,6 +10,7 @@ import {
   Icon,
   Center,
   VStack,
+  Stack,
   HStack,
   useToast,
   SimpleGrid,
@@ -140,35 +141,41 @@ const Offers = () => {
                   </Text>
                 </Flex>
                 <Center>
-                  {offer.insta_url && (
-                    <Box mb={4}>
+                  <Stack spacing={4} width="100%" align="center">
+                    {offer.insta_url && (
+                      <Box width="100%">
+                        <Button
+                          colorScheme="blue"
+                          as="a"
+                          href={offer.insta_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          size="sm"
+                          whiteSpace="nowrap"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          width="100%"
+                        >
+                          View on Instagram
+                        </Button>
+                      </Box>
+                    )}
+                    <Box width="100%">
                       <Button
-                        colorScheme="teal"
-                        as="a"
-                        href={offer.insta_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        size="sm"
-                        whiteSpace="nowrap"
-                        overflow="hidden"
-                        textOverflow="ellipsis"
+                        colorScheme="blue"
+                        onClick={
+                          offer.slots_limit !== 0
+                            ? () => handlePurchase(offer.id)
+                            : undefined
+                        }
+                        isLoading={loadingState[offer.id]}
+                        disabled={offer.slots_limit === 0}
+                        width="100%"
                       >
-                        View on Instagram
+                        {offer.slots_limit === 0 ? "Sold Out" : "Buy Now"}
                       </Button>
                     </Box>
-                  )}
-                  <Button
-                    colorScheme="blue"
-                    onClick={
-                      offer.slots_limit !== 0
-                        ? () => handlePurchase(offer.id)
-                        : undefined
-                    }
-                    isLoading={loadingState[offer.id]}
-                    disabled={offer.slots_limit === 0}
-                  >
-                    {offer.slots_limit === 0 ? "Sold Out" : "Buy Now"}
-                  </Button>
+                  </Stack>
                 </Center>
               </VStack>
             </Box>

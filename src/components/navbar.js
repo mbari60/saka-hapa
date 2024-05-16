@@ -239,16 +239,20 @@ const Navbar = () => {
               <Link to="/notifications" onClick={handleMenuItemClick}>
                 Notifications
               </Link>
-              <Link to="/adminviews" onClick={handleMenuItemClick}>
-                Admin
-              </Link>
-              <Link to="/profile" onClick={handleMenuItemClick}>
-                Profile
-              </Link>
+              {isSuperuser && (
+                <Link to="/adminviews" onClick={handleMenuItemClick}>
+                  Admin
+                </Link>
+              )}
               {isAuthenticated && (
-                <Button color="red.500" onClick={logout}>
-                  Logout
-                </Button>
+                <>
+                  <Link to="/profile" onClick={handleMenuItemClick}>
+                    Profile
+                  </Link>
+                  <Button color="red.500" onClick={logout}>
+                    Logout
+                  </Button>
+                </>
               )}
               {!isAuthenticated && (
                 <>

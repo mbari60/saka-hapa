@@ -92,7 +92,7 @@ const ProductsPage = ({ addToCart }) => {
             borderRadius="lg"
             overflow="hidden"
             boxShadow="lg"
-            style={{ height: "450px" }}
+            style={{ height: "500px" }}
           >
             <Image
               src={product.image_url}

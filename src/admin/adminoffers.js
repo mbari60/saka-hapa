@@ -33,6 +33,7 @@ const AdminOffers = () => {
     offer_price: 0,
     timeline: 60,
     image_url: "",
+    insta_url: "",
     slots_limit: 0,
     rating: 1,
   });
@@ -154,6 +155,7 @@ const AdminOffers = () => {
         offer_price: 0,
         timeline: 60,
         image_url: "",
+        insta_url: "",
         slots_limit: 0,
         rating: 1,
       });
@@ -260,11 +262,7 @@ const AdminOffers = () => {
                     type="number"
                     value={offer.slots_limit}
                     onChange={(e) =>
-                      handleOfferChange(
-                        offer.id,
-                        "slots_limit",
-                        e.target.value
-                      )
+                      handleOfferChange(offer.id, "slots_limit", e.target.value)
                     }
                   />
                 ) : (
@@ -369,6 +367,15 @@ const AdminOffers = () => {
                 type="text"
                 name="image_url"
                 value={newOffer.image_url}
+                onChange={handleNewOfferChange}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>insta_url</FormLabel>
+              <Input
+                type="text"
+                name="insta_url"
+                value={newOffer.insta_url}
                 onChange={handleNewOfferChange}
               />
             </FormControl>
