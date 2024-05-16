@@ -36,6 +36,8 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { logout, isAuthenticated, user } = useContext(AuthContext);
+  const isSuperuser = isAuthenticated && user && user.role === "admin";
+
 
   const handleMenuItemClick = () => {
     setShowMenu(false); // Close the menu when a link is clicked
@@ -141,14 +143,16 @@ const Navbar = () => {
               to="/notifications"
               onClick={handleMenuItemClick}
             />
-            <Button
-              variant="ghost"
-              as={Link}
-              to="/adminviews"
-              onClick={handleMenuItemClick}
-            >
-              Admin
-            </Button>
+            {isSuperuser && (
+              <Button
+                variant="ghost"
+                as={Link}
+                to="/adminviews"
+                onClick={handleMenuItemClick}
+              >
+                Admin
+              </Button>
+            )}
           </Box>
           <IconButton
             aria-label="Toggle Color Mode"

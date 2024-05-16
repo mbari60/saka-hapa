@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState , useContext} from "react";
+import { AuthContext } from "../context/authcontext"; 
 import {
   Box,
   Flex,
@@ -10,10 +11,14 @@ import {
   Spacer,
   Alert,
   AlertIcon,
+  useToast,
 } from "@chakra-ui/react";
 import { api } from "../utils/utils";
 
 const Cart = ({ cart, removeFromCart }) => {
+  const { isAuthenticated } = useContext(AuthContext);
+  const toast = useToast()
+
   const [quantities, setQuantities] = useState(
     cart.reduce((acc, product) => {
       acc[product.id] = 1;
@@ -51,6 +56,15 @@ const Cart = ({ cart, removeFromCart }) => {
   );
 
   const handlePlaceOrder = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Please log in to make a purchase.",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
     setIsLoading(true);
 
     // Create an array of order items
@@ -68,6 +82,12 @@ const Cart = ({ cart, removeFromCart }) => {
           type: "success",
           message: "Order placed successfully",
         });
+        toast({
+          title: "order placed succesfully",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
         setIsLoading(false);
         // Clear the cart after placing the order
         // clearCart();
@@ -77,6 +97,12 @@ const Cart = ({ cart, removeFromCart }) => {
         setOrderStatus({
           type: "error",
           message: "Error placing order. Please try again later.",
+        });
+         toast({
+          title: "failed to place order",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
         });
         setIsLoading(false);
       });

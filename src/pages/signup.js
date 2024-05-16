@@ -15,6 +15,7 @@ import {
   Grid,
   Text,
   Link as ChakraLink,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import * as Yup from "yup";
@@ -26,6 +27,10 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+
+  const colorMode = useColorModeValue("black", "white");
+  const bgMode = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.300", "gray.600");
 
   const schema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -56,6 +61,7 @@ const Signup = () => {
       toast.success(response.data.message);
       actions.resetForm();
       navigate("/");
+      
     } catch (error) {
       toast.error(error.response.data.error);
     } finally {
@@ -78,7 +84,7 @@ const Signup = () => {
         p="6"
         borderRadius="lg"
         boxShadow="lg"
-        bg="white"
+        bg={bgMode}
         w="100%"
         maxH="80vh"
         overflowY="auto"
@@ -110,8 +116,9 @@ const Signup = () => {
                   {({ field }) => (
                     <FormControl
                       isInvalid={errors.username && touched.username}
+                      borderColor={borderColor}
                     >
-                      <Input {...field} placeholder="Username" />
+                      <Input {...field} placeholder="Username" color={colorMode} />
                       <FormErrorMessage>{errors.username}</FormErrorMessage>
                     </FormControl>
                   )}
@@ -119,8 +126,11 @@ const Signup = () => {
 
                 <Field name="email">
                   {({ field }) => (
-                    <FormControl isInvalid={errors.email && touched.email}>
-                      <Input {...field} placeholder="Email" />
+                    <FormControl
+                      isInvalid={errors.email && touched.email}
+                      borderColor={borderColor}
+                    >
+                      <Input {...field} placeholder="Email" color={colorMode} />
                       <FormErrorMessage>{errors.email}</FormErrorMessage>
                     </FormControl>
                   )}
@@ -128,8 +138,11 @@ const Signup = () => {
 
                 <Field name="phone">
                   {({ field }) => (
-                    <FormControl isInvalid={errors.phone && touched.phone}>
-                      <Input {...field} placeholder="phone number starting with 07 or 01 or +254" />
+                    <FormControl
+                      isInvalid={errors.phone && touched.phone}
+                      borderColor={borderColor}
+                    >
+                      <Input {...field} placeholder="Phone number starting with 07 or 01 or +254" color={colorMode} />
                       <FormErrorMessage>{errors.phone}</FormErrorMessage>
                     </FormControl>
                   )}
@@ -139,12 +152,14 @@ const Signup = () => {
                   {({ field }) => (
                     <FormControl
                       isInvalid={errors.password && touched.password}
+                      borderColor={borderColor}
                     >
                       <InputGroup>
                         <Input
                           {...field}
                           type={showPassword ? "text" : "password"}
                           placeholder="Password"
+                          color={colorMode}
                         />
                         <InputRightElement>
                           <IconButton
@@ -168,12 +183,14 @@ const Signup = () => {
                       isInvalid={
                         errors.confirm_password && touched.confirm_password
                       }
+                      borderColor={borderColor}
                     >
                       <InputGroup>
                         <Input
                           {...field}
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm Password"
+                          color={colorMode}
                         />
                         <InputRightElement>
                           <IconButton

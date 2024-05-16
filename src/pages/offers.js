@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { api } from "../utils/utils";
 import {
   Box,
@@ -11,15 +11,16 @@ import {
   Center,
   VStack,
   HStack,
-  Grid,
-  GridItem,
   useToast,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { AuthContext } from "../context/authcontext"; // Ensure you import your AuthContext
 
 const Offers = () => {
   const [offers, setOffers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingState, setLoadingState] = useState({});
+  const { isAuthenticated } = useContext(AuthContext);
   const toast = useToast();
 
   useEffect(() => {
@@ -27,32 +28,47 @@ const Offers = () => {
   }, []);
 
   const fetchOffers = async () => {
-    setIsLoading(true);
+    setLoadingState((prev) => ({ ...prev, global: true }));
     try {
       const response = await api.get("/offers");
       setOffers(response.data);
     } catch (error) {
       console.error("Error fetching offers:", error);
     } finally {
-      setIsLoading(false);
+      setLoadingState((prev) => ({ ...prev, global: false }));
     }
   };
 
   const handlePurchase = async (offerId) => {
-    setIsLoading(true);
+    if (!isAuthenticated) {
+      toast({
+        title: "Please log in to make a purchase.",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    setLoadingState((prev) => ({ ...prev, [offerId]: true }));
     try {
       await api.post("/offerbookings", { offer_id: offerId });
-      // Optionally, you can handle success or refresh the offers after purchase
+      toast({
+        title: "Purchase successful!",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      // Optionally, refresh the offers or update the state to reflect the purchase
     } catch (error) {
-       toast({
-         title: error.response.data.message,
-         status: "error",
-         duration: 2000,
-         isClosable: true,
-       });
-
+      toast({
+        title: error.response?.data?.message || "Purchase failed.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     } finally {
-      setIsLoading(false);
+      setLoadingState((prev) => ({ ...prev, [offerId]: false }));
     }
   };
 
@@ -61,19 +77,16 @@ const Offers = () => {
     const hasHalfStar = rating % 1 !== 0;
     const starArray = [];
 
-    // Add full stars
     for (let i = 0; i < fullStars; i++) {
       starArray.push(<Icon as={FaStar} key={i} color="yellow.400" />);
     }
 
-    // Add half star if applicable
     if (hasHalfStar) {
       starArray.push(
         <Icon as={FaStarHalfAlt} key="half-star" color="yellow.400" />
       );
     }
 
-    // Add remaining empty stars
     const remainingStars = 5 - starArray.length;
     for (let i = 0; i < remainingStars; i++) {
       starArray.push(
@@ -94,18 +107,12 @@ const Offers = () => {
   };
 
   return (
-    <Grid
-      templateColumns={{
-        sm: "1fr",
-        md: "repeat(2, 1fr)",
-        lg: "repeat(3, 1fr)",
-      }}
-      gap={4}
-    >
-      {isLoading && <Spinner size="lg" />}
-      {offers.map((offer) => (
-        <GridItem key={offer.id}>
+    <Box p={6}>
+      {loadingState.global && <Spinner size="lg" />}
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8} my={10}>
+        {offers.map((offer) => (
           <Box
+            key={offer.id}
             borderWidth="1px"
             borderRadius="lg"
             overflow="hidden"
@@ -136,7 +143,7 @@ const Offers = () => {
                   <Button
                     colorScheme="blue"
                     onClick={() => handlePurchase(offer.id)}
-                    isLoading={isLoading}
+                    isLoading={loadingState[offer.id]}
                     disabled={offer.slots_limit === 0}
                   >
                     {offer.slots_limit === 0 ? "Sold Out" : "Buy Now"}
@@ -145,9 +152,9 @@ const Offers = () => {
               </VStack>
             </Box>
           </Box>
-        </GridItem>
-      ))}
-    </Grid>
+        ))}
+      </SimpleGrid>
+    </Box>
   );
 };
 

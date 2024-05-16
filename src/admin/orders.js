@@ -5,12 +5,12 @@ import {
   Thead,
   Tbody,
   Tr,
-  Button,
   Th,
   Td,
   Flex,
   useToast,
   Input,
+  Button,
 } from "@chakra-ui/react";
 
 const AdminOrders = () => {
@@ -70,7 +70,7 @@ const AdminOrders = () => {
 
   const updateOrderStatus = async (id) => {
     try {
-      await api.put(`/delivered/${id}`);
+      await api.post(`/deliverydone/${id}`);
       // Update order status locally
       const updatedOrders = orders.map((order) =>
         order.id === id ? { ...order, status: true } : order
