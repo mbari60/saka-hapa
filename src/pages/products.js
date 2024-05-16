@@ -92,7 +92,7 @@ const ProductsPage = ({ addToCart }) => {
             borderRadius="lg"
             overflow="hidden"
             boxShadow="lg"
-            style={{ height: "400px" }}
+            style={{ height: "450px" }}
           >
             <Image
               src={product.image_url}
@@ -108,6 +108,23 @@ const ProductsPage = ({ addToCart }) => {
               <Text fontSize="lg" fontWeight="bold" mb={2}>
                 Ksh.{product.price}
               </Text>
+              {product.insta_url && (
+                <Box mb={4}>
+                  <Button
+                    colorScheme="teal"
+                    as="a"
+                    href={product.insta_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    size="sm" 
+                    whiteSpace="nowrap" 
+                    overflow="hidden" 
+                    textOverflow="ellipsis"
+                  >
+                    View on Instagram
+                  </Button>
+                </Box>
+              )}
               <Button
                 colorScheme="teal"
                 onClick={() => handleAddToCart(product)}

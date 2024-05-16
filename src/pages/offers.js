@@ -140,6 +140,23 @@ const Offers = () => {
                   </Text>
                 </Flex>
                 <Center>
+                  {offer.insta_url && (
+                    <Box mb={4}>
+                      <Button
+                        colorScheme="teal"
+                        as="a"
+                        href={offer.insta_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        size="sm"
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                      >
+                        View on Instagram
+                      </Button>
+                    </Box>
+                  )}
                   <Button
                     colorScheme="blue"
                     onClick={

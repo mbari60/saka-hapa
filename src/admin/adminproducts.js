@@ -33,6 +33,7 @@ const AdminProducts = () => {
     price: 0,
     category: "",
     image_url: "",
+    insta_url:"",
     rating: 1,
   });
   const [searchName, setSearchName] = useState("");
@@ -359,6 +360,15 @@ const AdminProducts = () => {
                 type="text"
                 name="image_url"
                 value={newProduct.image_url}
+                onChange={handleNewProductChange}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>insta_url</FormLabel>
+              <Input
+                type="text"
+                name="insta_url"
+                value={newProduct.insta_url}
                 onChange={handleNewProductChange}
               />
             </FormControl>
