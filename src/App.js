@@ -8,7 +8,6 @@ import Offers from "./pages/offers";
 import Home from "./pages/home";
 import Products from "./pages/products";
 import Cart from "./pages/cart";
-import Contact from "./pages/contact";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Notifications from "./pages/notifications";
@@ -68,7 +67,6 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/about-us" element={<AboutUs/>}/>
-          <Route path="/contact" element={<Contact />} />
           {isSuperuser && (
             <>
               <Route path="/adminviews" element={<AdminPage />} />

@@ -58,12 +58,13 @@ const Signup = () => {
         phone: values.phone,
         password: values.password,
       });
+      console.log(response.data.message);
       toast.success(response.data.message);
       actions.resetForm();
       navigate("/");
       
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);
     }

@@ -142,7 +142,7 @@ const AboutUs = () => {
         />
         <ServiceCard
           title="Customer Support"
-          description="Our team is here to help you with any inquiries or issues you may have."
+          description="Our team is here to help you with any inquiries or issues you may have.Incase you forget your pasword contact admin your email adress and username so that he/she may help you reset the password"
         />
       </SimpleGrid>
     </Box>

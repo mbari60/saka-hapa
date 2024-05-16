@@ -36,14 +36,22 @@ const Home = () => {
           Our Aim as Swaggy Sphere
         </Text>
         <br />
+        <Text fontSize="lg" textAlign="center" fontStyle="itallic">
+          Our Aim
+        </Text>
+        <br />
         <Text fontSize="sm" textAlign="center" fontStyle="itallic">
-          We are aimed at delivering quality products at the expected time and ensure that our customers are confident about getting the products that they require 
+          At our core, we are dedicated to delivering nothing short of
+          excellence. Our aim is twofold: to consistently provide top-quality
+          products and to ensure they reach our customers precisely when needed.
+          We strive to instill confidence in every customer, assuring them that
+          they will receive the products they require, exactly as expected.
         </Text>
       </Box>
-      <br/>
-      <br/>
-      <hr/>
-      <br/>
+      <br />
+      <br />
+      <hr />
+      <br />
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 4 }}
         gap="6"
@@ -66,7 +74,8 @@ const Home = () => {
             Best Sellers
           </Heading>
           <Text fontSize="md" mb="4">
-            Explore our top-rated products loved by thousands of customers.
+            Explore our top-rated products loved by thousands of customers and
+            at a fair price.
           </Text>
           <Link to="/products">
             <Button colorScheme="blue">Discover More</Button>
@@ -77,7 +86,8 @@ const Home = () => {
             Exclusive Deals
           </Heading>
           <Text fontSize="md" mb="4">
-            Unlock special offers and discounts on your favorite items.
+            Unlock special offers and discounts on your favorite items also note
+            buy making a succesful purchase
           </Text>
           <Link to="/offers">
             <Button colorScheme="blue">Grab Yours</Button>
@@ -89,7 +99,7 @@ const Home = () => {
           </Heading>
           <Text fontSize="md" mb="4">
             Discover unique and limited-edition pieces you won't find anywhere
-            else.
+            else at the best price.
           </Text>
           <Link to="/offers">
             <Button colorScheme="blue">Explore Now</Button>
@@ -113,7 +123,10 @@ const Home = () => {
             mx="auto"
           />
           <Text fontSize="lg" p={4}>
-            Fast and Reliable delivery countrywide
+            Fast and Reliable Nationwide Delivery: Experience seamless delivery
+            services that are both swift and dependable. No matter where you are
+            in the country, our efficient transportation network ensures your
+            package arrives promptly and securely.
           </Text>
         </Box>
         <Box
@@ -131,7 +144,11 @@ const Home = () => {
             mx="auto"
           />
           <Text fontSize="lg" p={4}>
-            Hassle-Free Returns and Exchanges
+            Earn Merit Points with Every Successful Order: As a token of
+            appreciation for choosing us, every successful order placement earns
+            you merit points. Accumulate these points and redeem them later
+            towards your future purchases. It's our way of saying thank you for
+            your loyalty.
           </Text>
         </Box>
       </SimpleGrid>
@@ -155,7 +172,9 @@ const Home = () => {
             w="100px"
             h="100px"
           />
-          <Text fontSize="md">John - "Great experience!"</Text>
+          <Text fontSize="md">
+            John - "Great experience! and Fantanstic products"
+          </Text>
         </Box>
         <Box
           flex="1"
@@ -171,7 +190,9 @@ const Home = () => {
             w="100px"
             h="100px"
           />
-          <Text fontSize="md">Sarah - "Love the products!"</Text>
+          <Text fontSize="md">
+            Sarah - "Love the products! and the fair prices"
+          </Text>
         </Box>
         <Box
           flex="1"
@@ -187,7 +208,9 @@ const Home = () => {
             w="100px"
             h="100px"
           />
-          <Text fontSize="md">Emma - "Fast delivery!"</Text>
+          <Text fontSize="md">
+            Emma - "Fast delivery! within 24hours i had my order delivered"
+          </Text>
         </Box>
         <Box
           flex="1"
@@ -203,7 +226,9 @@ const Home = () => {
             w="100px"
             h="100px"
           />
-          <Text fontSize="md">David - "Highly recommend!"</Text>
+          <Text fontSize="md">
+            David - "Highly recommend! Swaggy sphere team"
+          </Text>
         </Box>
       </Flex>
     </Box>

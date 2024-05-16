@@ -15,3 +15,11 @@ code {
   flex-grow: 1; /* Make the main content area flex-grow */
   min-height: calc(100vh - 4rem); /* Subtract the height of the header/navbar */
 }
+.link-button {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #4CAF50;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-right: 10px; /* optional: add some margin between buttons */
+}

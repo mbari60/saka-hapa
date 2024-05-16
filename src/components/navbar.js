@@ -121,14 +121,6 @@ const Navbar = () => {
             <Button
               variant="ghost"
               as={Link}
-              to="/contact"
-              onClick={handleMenuItemClick}
-            >
-              Contact Us
-            </Button>
-            <Button
-              variant="ghost"
-              as={Link}
               to="/feedback"
               onClick={handleMenuItemClick}
             >
@@ -240,9 +232,6 @@ const Navbar = () => {
               </Link>
               <Link to="/about-us" onClick={handleMenuItemClick}>
                 About Us
-              </Link>
-              <Link to="/contact" onClick={handleMenuItemClick}>
-                Contact Us
               </Link>
               <Link to="/feedback" onClick={handleMenuItemClick}>
                 Feedback

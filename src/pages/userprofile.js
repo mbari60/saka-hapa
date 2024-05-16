@@ -149,7 +149,7 @@ const UserProfile = () => {
   const deleteUserAccount = async () => {
     try {
       // Send request to delete account
-      await api.delete("deleteaccount");
+      await api.delete("registration");
       toast({
         title: "Success",
         description: "Account deleted successfully.",
