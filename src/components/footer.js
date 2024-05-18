@@ -59,7 +59,7 @@ const Footer = () => {
             >
               <FaInstagram size={24} />
               <Text mt={2} color="black">
-                Click to join our Instagram page
+                Click to view our Instagram page
               </Text>
             </Link>
           </Box>
@@ -111,7 +111,7 @@ const Footer = () => {
             <Text fontSize="sm">
               For support or inquiries, call us at: <br />
               <ChakraLink href="tel:+254791816103" color="black.300">
-                +254791816103
+                +254791816103  or +254747816103
               </ChakraLink>
             </Text>
             <Box mt={4}>

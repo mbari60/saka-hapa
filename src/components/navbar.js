@@ -31,6 +31,8 @@ import {
 } from "@chakra-ui/icons";
 import { AuthContext } from "../context/authcontext";
 
+// import swaggylogo123 from "../images/swaggylogo123.jpg"
+
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const [showMenu, setShowMenu] = useState(false);
@@ -52,7 +54,7 @@ const Navbar = () => {
     <Box bg="blue.200" color="white" p="4">
       <Flex flexWrap="wrap" align="center">
         <Image
-          src="https://images.template.net/wp-content/uploads/2014/09/Zenith-Fitness-Logo.jpg"
+          src="https://media.istockphoto.com/id/2148737004/photo/badge-with-funny-emoticon-isolated-on-the-white-background-emoji-set-icons-3d-illustration.webp?b=1&s=170667a&w=0&k=20&c=ExgOXE8jjYeHqOr1W2dqajXfuIEr59t1EkumWLrG4h8="
           alt="Logo"
           boxSize={{ base: "30px", md: "40px" }}
           mr="4"
