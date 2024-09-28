@@ -17,6 +17,7 @@ import AdminOffers from "./admin/adminoffers";
 import AdminNotifications from "./admin/adminnotifications";
 import AdminUsers from "./admin/adminusers";
 import OrderList from "./admin/orders";
+import Dashboard from "./admin/dashboard";
 import UserProfile from "./pages/userprofile";
 import AboutUs from "./pages/about";
 import Footer from "./components/footer";
@@ -78,6 +79,7 @@ function App() {
               />
               <Route path="/adminusers" element={<AdminUsers />} />
               <Route path="/getorders" element={<OrderList />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </>
           )}
         </Routes>

@@ -8,18 +8,23 @@ import {
   VStack,
   Center,
   SimpleGrid,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 
 const AboutUs = () => {
+  const cardBg = useColorModeValue("white", "gray.800"); // Light/Dark mode background
+  const cardTextColor = useColorModeValue("gray.700", "gray.200"); // Light/Dark mode text color
+
   const testimonials = [
     {
       id: 1,
       name: "John Doe",
       rating: 5,
-      comment: "Swaggy Sphere provides incredibly fast delivery and great products!",
+      comment:
+        "Swaggy Sphere provides incredibly fast delivery and great products!",
       imageUrl:
         "https://media.istockphoto.com/id/1445597021/photo/black-man-phone-and-social-media-in-city-reading-text-message-or-communication-on-social.webp?b=1&s=170667a&w=0&k=20&c=-q2G1j_5fzPTNJWahLG2WMJW4PzXGK_cefA1zlEnGI8=",
     },
@@ -27,7 +32,8 @@ const AboutUs = () => {
       id: 2,
       name: "Jane Smith",
       rating: 4,
-      comment: "I love the variety of products on Swaggy Sphere and their fast delivery!",
+      comment:
+        "I love the variety of products on Swaggy Sphere and their fast delivery!",
       imageUrl:
         "https://media.istockphoto.com/id/1644128335/photo/cheerful-young-business-professional-using-smart-phone.webp?b=1&s=170667a&w=0&k=20&c=yZA0UT-QlWI_m-EtqyxxHdsHvYhtoucYV0_PbIN63z0=",
     },
@@ -35,7 +41,8 @@ const AboutUs = () => {
       id: 3,
       name: "Michael Johnson",
       rating: 5,
-      comment: "The merit points system is a fantastic bonus. Highly recommend Swaggy Sphere!",
+      comment:
+        "The merit points system is a fantastic bonus. Highly recommend Swaggy Sphere!",
       imageUrl:
         "https://media.istockphoto.com/id/1653368125/photo/candid-portrait-of-african-professional-using-laptop.webp?b=1&s=170667a&w=0&k=20&c=JrTVPgpwHI59pPki6kLv-cKfDroWQ1D4G0is7GwoF3g=",
     },
@@ -43,7 +50,8 @@ const AboutUs = () => {
       id: 4,
       name: "Emily Davis",
       rating: 4.5,
-      comment: "Impressed with the quality and speed of service at Swaggy Sphere.",
+      comment:
+        "Impressed with the quality and speed of service at Swaggy Sphere.",
       imageUrl:
         "https://images.unsplash.com/photo-1530785602389-07594beb8b73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8a2VueWFuJTIwd29tYW58ZW58MHx8MHx8fDA%3D%3D",
     },
@@ -71,9 +79,6 @@ const AboutUs = () => {
             products you need quickly, and we are committed to making that
             process as smooth and enjoyable as possible.
           </Text>
-          <br />
-          <br />
-          <br />
           <Text fontSize="xl" textAlign="center" mb={6}>
             Our mission is to provide high-quality products with delivery within
             24 hours. We offer a merit point system for every successful
@@ -90,7 +95,8 @@ const AboutUs = () => {
           <Box key={testimonial.id}>
             <Center mb={8}>
               <Box
-                bg="white"
+                bg={cardBg}
+                color={cardTextColor}
                 p={6}
                 borderRadius="md"
                 boxShadow="md"
@@ -138,11 +144,11 @@ const AboutUs = () => {
         />
         <ServiceCard
           title="Bonus Offers"
-          description="Enjoy random bonus offers for less prices with swaggy sphere"
+          description="Enjoy random bonus offers for less prices with swaggy sphere."
         />
         <ServiceCard
           title="Customer Support"
-          description="Our team is here to help you with any inquiries or issues you may have.Incase you forget your pasword contact admin your email adress and username so that he/she may help you reset the password"
+          description="Our team is here to help you with any inquiries or issues you may have. Incase you forget your password, contact admin with your email and username for help."
         />
       </SimpleGrid>
     </Box>
@@ -150,12 +156,22 @@ const AboutUs = () => {
 };
 
 const ServiceCard = ({ title, description }) => {
+  const cardBg = useColorModeValue("gray.100", "gray.700");
+  const cardTextColor = useColorModeValue("gray.800", "gray.200");
+
   return (
-    <Box p={6} bg="gray.100" borderRadius="md" boxShadow="md">
-      <Heading as="h3" size="lg" mb={4} textAlign="center">
+    <Box
+      p={6}
+      bg={cardBg}
+      color={cardTextColor}
+      borderRadius="md"
+      boxShadow="md"
+      textAlign="center"
+    >
+      <Heading as="h3" size="lg" mb={4}>
         {title}
       </Heading>
-      <Text textAlign="center">{description}</Text>
+      <Text>{description}</Text>
     </Box>
   );
 };

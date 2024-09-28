@@ -47,6 +47,9 @@ const AdminPage = () => {
             <Link to="/adminnotifications">
               <Text>Notifications</Text>
             </Link>
+            <Link to="/dashboard">
+              <Text>Analysis Dashboard</Text>
+            </Link>
           </VStack>
         </Box>
       )}

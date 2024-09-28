@@ -1,8 +1,12 @@
 import axios from "axios";
 
-export const BASE_URL = "https://swagspherebackend.onrender.com";
+// export const BASE_URL = "https://swagspherebackend.onrender.com";
 
 // export const BASE_URL = `http://127.0.0.1:5000`;
+
+export const BASE_URL = `https://swaggybackend.onrender.com`;
+
+// https://swaggybackend.onrender.com
 
 export const api = axios.create({
   baseURL: BASE_URL,
